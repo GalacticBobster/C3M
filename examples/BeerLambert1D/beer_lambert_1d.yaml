@@ -1,0 +1,54 @@
+# Beer-Lambert 1D Photochemistry Solver Configuration
+# This file configures a one-dimensional photochemistry model
+# using the Beer-Lambert law for radiative transfer
+
+# Chemical reaction network file
+network: "photolysis_o2.yaml"
+
+# Atmospheric structure
+atmosphere:
+  nlevels: 20              # Number of vertical levels
+  z_bottom: 0.0            # Bottom altitude [m]
+  z_top: 100000.0          # Top altitude [m] - 100 km
+  p_bottom: 101325.0       # Bottom pressure [Pa] - 1 atm
+  p_top: 1.0               # Top pressure [Pa]
+  temperature: 250.0       # Atmospheric temperature [K]
+
+# Initial conditions for species
+initial_conditions:
+  species:
+    N2: 0.78               # Nitrogen mole fraction
+    O2: 0.21               # Oxygen mole fraction
+    O: 1.0e-6              # Atomic oxygen mole fraction
+    O(1D): 1.0e-9          # Excited oxygen mole fraction
+    O3: 1.0e-8             # Ozone mole fraction
+
+# Solver settings
+solver:
+  time_step: 1.0           # Time step [s]
+  max_time: 86400.0        # Maximum simulation time [s] - 1 day
+  output_interval: 3600.0  # Output interval [s] - 1 hour
+
+# Output settings
+output:
+  filename: "beer_lambert_1d_output.dat"
+  format: "ascii"
+
+# Problem description
+problem:
+  - pres: "1.0"            # Reference pressure [bar]
+  - temp: "250.0"          # Reference temperature [K]
+
+# Initial species for compatibility
+init:
+  - species: "N2 O2 O O(1D) O3"
+  - N2: "0.78"
+  - O2: "0.21"
+  - O: "1.0e-6"
+  - O(1D): "1.0e-9"
+  - O3: "1.0e-8"
+
+# Integrator settings
+integrator:
+  - type: "CVODE"
+  - Tmax: "86400.0"        # Maximum time [s]
